@@ -1,37 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Expense Tracker</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense & Budget Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Expense Tracker</h1>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </header>
 
-  <h1>Expense Tracker</h1>
+        <section class="balance-section">
+            <div class="balance-card">
+                <p class="balance-label">Total Spending</p>
+                <h2 class="balance-amount" id="totalBalance">Rp 0</h2>
+            </div>
+            <div class="limit-card">
+                <label for="spendingLimit">Set Spending Limit (Rp):</label>
+                <input type="number" id="spendingLimit" placeholder="e.g., 5000000" min="0" step="1000">
+            </div>
+        </section>
 
-  <button onclick="toggleDark()">🌙 / ☀️</button>
+        <div id="limitAlert" class="alert hidden">
+            ⚠️ You've exceeded your spending limit!
+        </div>
 
-  <h2>Total: Rp <span id="balance">0</span></h2>
+        <section class="form-section">
+            <h3>Add Transaction</h3>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" id="itemName" placeholder="e.g., Coffee" required>
+                    <span class="error-message" id="nameError"></span>
+                </div>
 
-  <form id="form">
-    <input type="text" id="name" placeholder="Item Name">
-    <input type="number" id="amount" placeholder="Amount">
-    
-    <select id="category">
-      <option value="">Select Category</option>
-      <option value="Food">Food</option>
-      <option value="Transport">Transport</option>
-      <option value="Fun">Fun</option>
-    </select>
+                <div class="form-group">
+                    <label for="amount">Amount (Rp)</label>
+                    <input type="number" id="amount" placeholder="0" step="1000" min="1000" required>
+                    <span class="error-message" id="amountError"></span>
+                </div>
 
-    <button type="submit">Add</button>
-  </form>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select a category</option>
+                        <option value="Food">🍔 Food</option>
+                        <option value="Transport">🚗 Transport</option>
+                        <option value="Fun">🎮 Fun</option>
+                    </select>
+                    <span class="error-message" id="categoryError"></span>
+                </div>
 
-  <ul id="list"></ul>
+                <button type="submit" class="btn-primary">Add Transaction</button>
+            </form>
+        </section>
 
-  <canvas id="chart"></canvas>
+        <section class="controls-section">
+            <div class="sort-controls">
+                <label for="sortBy">Sort by:</label>
+                <select id="sortBy">
+                    <option value="date">Date (Newest)</option>
+                    <option value="amount-high">Amount (High to Low)</option>
+                    <option value="amount-low">Amount (Low to High)</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+        </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/script.js"></script>
+        <section class="transactions-section">
+            <h3>Transaction History</h3>
+            <div id="transactionList" class="transaction-list">
+                <p class="empty-state">No transactions yet. Add your first expense above!</p>
+            </div>
+        </section>
+
+        <section class="chart-section">
+            <h3>Spending by Category</h3>
+            <div class="chart-container">
+                <canvas id="spendingChart"></canvas>
+            </div>
+            <div id="chartEmpty" class="empty-state">
+                Add transactions to see your spending distribution
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
